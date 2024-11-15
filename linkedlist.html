@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+    class Node{
+        constructor(element){
+            this.data = element;
+            this.next = null;
+        }
+    }
+    class LinkedList{
+        constructor(){
+            this.head = null;
+        }
+        add(el){
+            var node = new Node(el);
+            var current;
+            if(this.head == null){
+                this.head = node;
+            }
+            else{
+                current = this.head;
+                while(current.next != null){
+                    current = current.next;
+                }
+                current.next  = node;
+            }
+        }
+        insertatbeg(el){
+            var node = new Node(el);
+            node.next = this.head;
+            this.head = node;
+        }
+        insertatend(el){
+            var node = new Node(el);
+            let current = this.head;
+            if(current === null){
+                this.head = node;
+            }
+            while(current.next !== null){
+                current = current.next;
+            }
+            current.next = node;
+        }
+        insertafter(af,el){
+            var node = new Node(el);
+            let current = this.head;
+            while(current !== null && current.data !== af){
+                current = current.next;
+            }
+            if (current === null) {
+               console.log(`Element ${af} not found in the list.`);
+               return;
+            }  
+            node.next = current.next;
+            current.next = node;
+        
+        }
+        insertbefore(bef,el){
+            var node = new Node(el);
+            if (this.head === null) {
+                console.log("The list is empty. Cannot insert before.");
+                return;
+            }
+
+             // Case: Insert before the head (first element)
+              if (this.head.data === bef) {
+                   node.next = this.head;
+                   this.head = node;
+                   return;
+                }
+
+               let current = this.head;
+               let prev = null;
+
+             // Traverse the list to find the node with data `bef`
+             while (current !== null && current.data !== bef) {
+                  prev = current;
+                  current = current.next;
+              }
+
+              // If `bef` is not found
+             if (current === null) {
+                  console.log(`Element ${bef} not found in the list.`);
+                   return;
+              }
+
+             // Insert the new node before `current`
+             node.next = current;
+             prev.next = node;
+
+        }
+        printList(){
+            let temp = this.head;
+            if(temp == null){
+                console.log("List is empty");
+                return;
+            }
+            while(temp != null){
+                console.log(temp.data);
+                temp = temp.next;
+            }
+        }
+        delatbeg(){
+            this.head = this.head.next
+        }
+        delatend(){
+            let prev = null;
+            let current = this.head;
+            while(current.next !== null){
+                prev = current;
+                current = current.next;
+            }
+            prev.next = null;
+        }
+        delnode(el){
+            let current = this.head;
+            let prev = null;
+            if(current === null){
+                console.log("The list is empty. Cannot delete.")
+                return;
+            }
+            if(current.data === el){
+                this.head = current.next;
+                return;
+            }
+            while(current !== null && current.data !== el){
+                prev = current;
+                current= current.next;
+            }
+            if(current === null){
+                console.log(`Element ${el} not found in the list.`);
+                return;
+            }
+            prev.next = current.next;
+        }
+        delbef(el){
+            let current = this.head;
+            let prev = null;
+            let pprev = null;
+            if(current === null){
+                console.log("Cannot delete before. The list is too short")
+                return;
+            }
+            if (current.data === el) {
+                console.log(`Cannot delete before the first element (${el}).`);
+                return;
+            }
+            while(current !== null && current.data !== el){
+                pprev= prev;
+                prev = current;
+                current = current.next;
+            }
+            if (current === null) {
+               console.log(`Element ${el} not found in the list.`);
+               return;
+            }   
+            if (pprev === null) {
+               // This happens when `prev` is the head
+               this.head = prev.next;
+            } 
+            else {
+               pprev.next = prev.next;
+             }
+        }
+        delaf(el){
+            let current = this.head;
+            if (current === null) {
+               console.log("The list is empty. Cannot delete.");
+               return;
+            }
+            while (current !== null && current.data !== el) {
+               current = current.next;
+            }
+
+            // If the element is not found
+            if (current === null) {
+                console.log(`Element ${el} not found in the list.`);
+                return;
+            }
+
+            // If the element is the last node, there's no node after it
+            if (current.next === null) {
+                console.log(`There is no node after element ${el}.`);
+                return;
+            }  
+
+             // Delete the node after `current`
+               current.next = current.next.next;
+          }
+    }
+    var l1 = new LinkedList();
+    l1.add(10);
+    l1.add(20);
+    l1.add(30);
+    l1.add(40);
+    l1.add(50);
+    l1.add(60);
+    l1.insertatbeg(0);
+    l1.insertatend(70);
+    l1.insertafter(70,80);
+    l1.insertbefore(80,90);
+    l1.delatbeg();
+    l1.delatend();
+    l1.delnode(70);
+    l1.delbef(90);
+    l1.delaf(50)
+    l1.printList();
+    
+</script>
